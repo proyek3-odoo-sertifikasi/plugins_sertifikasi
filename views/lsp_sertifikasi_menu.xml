@@ -4,7 +4,7 @@
     <menuitem id="menu_lsp_root"
               name="LSP"
               sequence="10"
-              web_icon="plugins_sertifikat,static/description/icon.png"
+              web_icon="plugins_sertifikasi,static/description/icon.png"
               groups="base.group_user"/>
 
     <!-- Sertifikasi Menu -->

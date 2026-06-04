@@ -23,7 +23,7 @@ class LspSertifikasiVerifyController(http.Controller):
 
         if not certificate:
             response = request.render(
-                'plugins_sertifikat.verify_not_found',
+                'plugins_sertifikasi.verify_not_found',
                 {'token': token},
             )
             response.headers['Cache-Control'] = 'no-store'
@@ -36,7 +36,7 @@ class LspSertifikasiVerifyController(http.Controller):
         is_valid = certificate.state == 'active' and not expired_by_date
 
         response = request.render(
-            'plugins_sertifikat.verify_page',
+            'plugins_sertifikasi.verify_page',
             {
                 'cert': certificate,
                 'is_valid': is_valid,

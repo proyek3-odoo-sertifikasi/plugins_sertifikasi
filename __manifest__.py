@@ -39,7 +39,7 @@
     ],
     'assets': {
         'web.assets_backend': [
-            'plugins_sertifikat/static/src/css/lsp_sertifikasi.css',
+            'plugins_sertifikasi/static/src/css/lsp_sertifikasi.css',
         ],
     },
     'installable': True,

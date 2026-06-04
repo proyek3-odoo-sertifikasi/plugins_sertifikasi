@@ -231,7 +231,7 @@ class LspSertifikasi(models.Model):
             rec.state = 'draft'
 
     def action_print_sertifikat(self):
-        return self.env.ref('plugins_sertifikat.action_report_lsp_sertifikat').report_action(self)
+        return self.env.ref('plugins_sertifikasi.action_report_lsp_sertifikat').report_action(self)
 
     @api.model
     def _generate_certificate(self, asesmen):
