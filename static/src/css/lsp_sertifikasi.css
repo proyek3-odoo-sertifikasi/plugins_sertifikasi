@@ -1,0 +1,67 @@
+/* ============================================================
+   LSP MODUL SERTIFIKASI - CUSTOM STYLES
+   ============================================================ */
+
+/* 1. Styling Header Nomor Sertifikat agar Lebih Menonjol */
+.o_field_char[name="nomor_sertifikat"] {
+    font-family: 'Monaco', 'menubar', monospace;
+    color: #004d40 !important;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* 2. Styling Status (Badge) pada List View & Form */
+.o_tag[name="state"] {
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+}
+
+/* 3. Memberikan Aksen pada URL Verifikasi (QR Code Link) */
+.o_field_widget[name="verification_url"] a {
+    color: #01579b !important;
+    text-decoration: underline !important;
+    font-style: italic;
+}
+
+/* 4. Mempercantik Tampilan Gambar QR Code */
+.o_field_image[name="qr_code"] img {
+    border: 2px solid #eeeeee;
+    border-radius: 8px;
+    padding: 10px;
+    background: #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* 5. Dekorasi untuk Field Sisa Hari (Kadaluarsa) */
+/* Memberikan latar belakang soft jika sisa hari sedikit */
+.o_field_integer[name="sisa_hari"] {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+/* 6. Penyesuaian Form View - Grouping */
+.o_group_col_6 {
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+/* 7. Khusus untuk Kanban View Sertifikasi */
+.o_kanban_record_title {
+    color: #714B67 !important; /* Warna ungu Odoo */
+    font-size: 1.1em;
+}
+
+.o_kanban_record_body b {
+    color: #666;
+    font-size: 0.9em;
+}
+
+/* 8. Styling untuk Alasan Pencabutan (Text Field) */
+.o_field_text[name="alasan_cabut"] {
+    background-color: #fff9f9 !important;
+    border-left: 4px solid #d9534f !important;
+    padding: 10px !important;
+    font-style: italic;
+}

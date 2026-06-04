@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_lsp_sertifikat_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="barcode_src" t-value="'/report/barcode/?barcode_type=Code128&amp;value=%s&amp;width=600&amp;height=80&amp;humanreadable=1' % (o.nomor_sertifikat or '')"/>
+
+                <div class="page lsp_cert_page">
+                    <style>
+                        .lsp_cert_page { padding: 0 !important; }
+                        .lsp_cert {
+                            border: 2px solid #222;
+                            padding: 18px 22px;
+                            /* Avoid 2nd page caused by min-height + padding in wkhtmltopdf */
+                            height: 100%;
+                            box-sizing: border-box;
+                            page-break-inside: avoid;
+                            font-family: Arial, sans-serif;
+                            color: #111;
+                        }
+                        .lsp_top {
+                            display: table;
+                            width: 100%;
+                        }
+                        .lsp_top > div { display: table-cell; vertical-align: top; }
+                        .lsp_top_left { width: 20%; }
+                        .lsp_top_center { width: 60%; text-align: center; }
+                        .lsp_top_right { width: 20%; text-align: right; }
+
+                        .lsp_org_name { font-size: 11px; font-weight: 700; letter-spacing: 0.3px; }
+                        .lsp_org_sub { font-size: 9px; margin-top: 2px; opacity: 0.9; }
+                        .lsp_title_id { margin-top: 18px; font-size: 20px; font-weight: 800; letter-spacing: 0.8px; text-align: center; }
+                        .lsp_title_en { margin-top: 2px; font-size: 12px; font-style: italic; text-align: center; }
+
+                        .lsp_cert_no { margin-top: 10px; text-align: center; font-size: 11px; }
+                        .lsp_stmt { margin-top: 16px; text-align: center; font-size: 11px; }
+                        .lsp_stmt .en { font-style: italic; opacity: 0.95; }
+
+                        .lsp_name { margin-top: 16px; text-align: center; font-size: 22px; font-weight: 800; }
+                        .lsp_reg { margin-top: 10px; text-align: center; font-size: 11px; }
+
+                        .lsp_section { margin-top: 18px; text-align: center; }
+                        .lsp_section .label { font-size: 11px; }
+                        .lsp_section .label .en { font-style: italic; opacity: 0.95; }
+                        .lsp_section .value { margin-top: 8px; font-size: 16px; font-weight: 800; }
+
+                        .lsp_valid { margin-top: 18px; text-align: center; font-size: 11px; }
+                        .lsp_valid .en { font-style: italic; opacity: 0.95; }
+
+                        .lsp_footer {
+                            margin-top: 22px;
+                            display: table;
+                            width: 100%;
+                        }
+                        .lsp_footer > div { display: table-cell; vertical-align: top; }
+                        .lsp_footer_left { width: 60%; }
+                        .lsp_footer_right { width: 40%; text-align: center; }
+
+                        .lsp_place_date { font-size: 11px; margin-top: 10px; }
+                        .lsp_on_behalf { font-size: 10px; margin-top: 6px; }
+                        .lsp_sig_box { margin-top: 40px; font-weight: 700; }
+                        .lsp_sig_name { margin-top: 10px; font-size: 11px; }
+                        .lsp_verify { font-size: 9px; margin-top: 6px; word-break: break-all; }
+                        .lsp_qr img { margin-top: 8px; max-height: 110px; }
+
+                        .lsp_barcode { max-height: 40px; }
+                    </style>
+
+                    <div class="lsp_cert">
+                        <!-- ================= PAGE 1: BNSP CERTIFICATE ================= -->
+                        <div class="cert_page_1" style="height: 1050px; position: relative; box-sizing: border-box; page-break-after: always; padding: 20px;">
+                            <!-- Header / Garuda Logo area -->
+                            <div style="text-align: center; margin-top: 10px;">
+                                <div style="display: inline-block; vertical-align: middle; margin-bottom: 10px;">
+                                    <t t-if="o.company_id.logo">
+                                        <img t-att-src="image_data_uri(o.company_id.logo)" style="max-height: 80px;" alt="Garuda Logo"/>
+                                    </t>
+                                </div>
+                                <div style="font-family: 'Times New Roman', Times, serif; font-size: 14px; font-weight: bold; letter-spacing: 0.5px; color: #111;">
+                                    BADAN NASIONAL SERTIFIKASI PROFESI
+                                </div>
+                                <div style="font-family: 'Times New Roman', Times, serif; font-size: 10px; font-weight: bold; font-style: italic; letter-spacing: 0.5px; color: #333; margin-top: 2px;">
+                                    INDONESIAN PROFESSIONAL CERTIFICATION AUTHORITY
+                                </div>
+                            </div>
+
+                            <!-- Title -->
+                            <div style="text-align: center; margin-top: 25px;">
+                                <h2 style="font-family: Arial, Helvetica, sans-serif; font-size: 26px; font-weight: 900; color: #0c4a6e; margin: 0; letter-spacing: 1px;">
+                                    SERTIFIKAT KOMPETENSI
+                                </h2>
+                                <h4 style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; font-weight: bold; font-style: italic; color: #0c4a6e; margin: 4px 0 0 0;">
+                                    CERTIFICATE OF COMPETENCE
+                                </h4>
+                                <div style="font-size: 12px; font-weight: bold; margin-top: 15px; color: #222;">
+                                    No. <span t-esc="o.nomor_sertifikat"/>
+                                </div>
+                            </div>
+
+                            <!-- Statement -->
+                            <div style="text-align: center; margin-top: 25px; font-size: 13px; color: #222; line-height: 1.4;">
+                                <div>Dengan ini menyatakan bahwa,</div>
+                                <div style="font-style: italic; color: #444;">This is to certify that,</div>
+                            </div>
+
+                            <!-- Candidate Name -->
+                            <div style="text-align: center; margin-top: 20px;">
+                                <h1 style="font-family: 'Times New Roman', Times, serif; font-size: 28px; font-weight: bold; text-decoration: underline; color: #000; margin: 0;">
+                                    <span t-esc="o.student_id.full_name"/>
+                                </h1>
+                                <div style="font-size: 12px; font-weight: bold; margin-top: 8px; color: #222;">
+                                    No. Reg. <span t-esc="o.student_id.nik"/>
+                                </div>
+                            </div>
+
+                            <!-- Bidang Kompetensi -->
+                            <div style="text-align: center; margin-top: 25px;">
+                                <div style="font-size: 13px; color: #222;">
+                                    Telah kompeten pada bidang:
+                                </div>
+                                <div style="font-size: 11px; font-style: italic; color: #444; margin-top: 2px;">
+                                    Is competent in the area of:
+                                </div>
+                                <h3 style="font-family: 'Times New Roman', Times, serif; font-size: 18px; font-weight: bold; text-decoration: underline; color: #111; margin: 10px 0 0 0;">
+                                    Teknologi Informasi dan Komunikasi
+                                </h3>
+                                <div style="font-family: 'Times New Roman', Times, serif; font-size: 13px; font-style: italic; color: #444; margin-top: 2px;">
+                                    Information and Communication Technology
+                                </div>
+                            </div>
+
+                            <!-- Kualifikasi / Kompetensi -->
+                            <div style="text-align: center; margin-top: 25px;">
+                                <div style="font-size: 12px; color: #222;">
+                                    dengan Kualifikasi / Kompetensi
+                                </div>
+                                <div style="font-size: 10px; font-style: italic; color: #444; margin-top: 2px;">
+                                    With Qualification / Competency
+                                </div>
+                                <h3 style="font-family: 'Times New Roman', Times, serif; font-size: 18px; font-weight: bold; text-decoration: underline; color: #111; margin: 10px 0 0 0;">
+                                    <span t-esc="o.skema_id.name"/>
+                                </h3>
+                            </div>
+
+                            <!-- Masa Berlaku -->
+                            <div style="text-align: center; margin-top: 35px; font-size: 12px; color: #222;">
+                                <div>
+                                    Sertifikat ini berlaku untuk: <strong><span t-esc="o.masa_berlaku_tahun"/> (tiga) tahun</strong>
+                                </div>
+                                <div style="font-style: italic; color: #444; margin-top: 2px;">
+                                    This certificate is valid for: <span t-esc="o.masa_berlaku_tahun"/> (three) years
+                                </div>
+                            </div>
+
+                            <!-- Tanggal Terbit & Tanda Tangan -->
+                            <div style="margin-top: 40px; display: table; width: 100%;">
+                                <div style="display: table-row;">
+                                    <!-- QR Code & Verify URL -->
+                                    <div style="display: table-cell; width: 50%; vertical-align: bottom; padding-left: 20px;">
+                                        <div style="font-size: 9px; color: #555; line-height: 1.3;">
+                                            <div><strong>Verifikasi Sertifikat:</strong></div>
+                                            <div style="word-break: break-all; color: #0284c7;" t-esc="o.verification_url"/>
+                                        </div>
+                                        <div style="margin-top: 10px;" t-if="o.qr_code">
+                                            <img t-att-src="image_data_uri(o.qr_code)" style="max-height: 90px;" alt="QR Verification"/>
+                                        </div>
+                                    </div>
+
+                                    <!-- Signature -->
+                                    <div style="display: table-cell; width: 50%; text-align: center; vertical-align: top;">
+                                        <div style="font-size: 12px; color: #222; font-weight: bold;">
+                                            <t t-if="o.company_id.city">
+                                                <span t-esc="o.company_id.city"/>,
+                                            </t>
+                                            <span t-field="o.tanggal_terbit"/>
+                                        </div>
+                                        
+                                        <div style="font-size: 11px; margin-top: 10px; line-height: 1.3; color: #222;">
+                                            Atas Nama Badan Nasional Sertifikasi Profesi
+                                            <div style="font-style: italic; color: #444; font-size: 9px;">On Behalf of Indonesian Professional Certification Authority</div>
+                                            <strong>LSP <span t-esc="o.company_id.name"/></strong>
+                                            <div style="font-style: italic; color: #444; font-size: 9px;"><span t-esc="o.company_id.name"/> Profession Certification Body</div>
+                                        </div>
+
+                                        <!-- Spacing for physical signature/stamp -->
+                                        <div style="height: 65px; margin-top: 15px; position: relative;">
+                                            <div style="border-bottom: 1px solid #222; width: 80%; margin: 45px auto 5px auto; font-weight: bold; font-size: 12px;">
+                                                <t t-if="o.asesor_id">
+                                                    <span t-esc="o.asesor_id.name"/>
+                                                </t>
+                                            </div>
+                                            <div style="font-size: 11px; color: #333;">
+                                                Ketua / <span style="font-style: italic;">Chairman</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ================= PAGE 2: LIST OF COMPETENCIES ================= -->
+                        <div class="cert_page_2" style="height: 1050px; box-sizing: border-box; padding: 40px 30px 20px 30px;">
+                            <div style="text-align: center; border-bottom: 2px solid #222; padding-bottom: 10px;">
+                                <h3 style="font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-weight: bold; margin: 0; color: #111;">
+                                    DAFTAR UNIT KOMPETENSI
+                                </h3>
+                                <h4 style="font-family: Arial, Helvetica, sans-serif; font-size: 11px; font-style: italic; color: #444; margin: 4px 0 0 0;">
+                                    LIST OF UNITS OF COMPETENCY
+                                </h4>
+                            </div>
+
+                            <!-- Metadata info -->
+                            <div style="margin-top: 20px; font-size: 11px; line-height: 1.5; display: table; width: 100%;">
+                                <div style="display: table-row;">
+                                    <div style="display: table-cell; width: 25%; font-weight: bold;">Nama Asesi / Candidate:</div>
+                                    <div style="display: table-cell; width: 75%;" t-esc="o.student_id.full_name"/>
+                                </div>
+                                <div style="display: table-row;">
+                                    <div style="display: table-cell; width: 25%; font-weight: bold;">No. Registrasi / Reg No:</div>
+                                    <div style="display: table-cell; width: 75%;" t-esc="o.student_id.nik"/>
+                                </div>
+                                <div style="display: table-row;">
+                                    <div style="display: table-cell; width: 25%; font-weight: bold;">Skema Sertifikasi / Scheme:</div>
+                                    <div style="display: table-cell; width: 75%;" t-esc="o.skema_id.name"/>
+                                </div>
+                            </div>
+
+                            <!-- Table of Unit Kompetensi -->
+                            <div style="margin-top: 25px;">
+                                <table style="font-size: 10px; width: 100%; border-collapse: collapse; border: 1px solid #ccc; line-height: 1.4;">
+                                    <thead>
+                                        <tr style="background-color: #f2f2f2; text-align: left; font-weight: bold;">
+                                            <th style="border: 1px solid #ccc; padding: 8px; width: 8%; text-align: center;">NO</th>
+                                            <th style="border: 1px solid #ccc; padding: 8px; width: 22%;">KODE UNIT / UNIT CODE</th>
+                                            <th style="border: 1px solid #ccc; padding: 8px; width: 55%;">JUDUL UNIT KOMPETENSI / TITLE OF UNIT OF COMPETENCY</th>
+                                            <th style="border: 1px solid #ccc; padding: 8px; width: 15%; text-align: center;">NILAI / GRADE</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="idx" t-value="1"/>
+                                        <t t-foreach="o.asesmen_id.unit_line_ids" t-as="unit">
+                                            <tr>
+                                                <td style="border: 1px solid #ccc; padding: 8px; text-align: center;" t-esc="idx"/>
+                                                <td style="border: 1px solid #ccc; padding: 8px;" t-esc="unit.unit_code or '-'"/>
+                                                <td style="border: 1px solid #ccc; padding: 8px;" t-esc="unit.page_id.title"/>
+                                                <td style="border: 1px solid #ccc; padding: 8px; text-align: center; font-weight: bold;" t-esc="unit.nilai"/>
+                                            </tr>
+                                            <t t-set="idx" t-value="idx + 1"/>
+                                        </t>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Footer / Signatures for Page 2 -->
+                            <div style="margin-top: 60px; display: table; width: 100%;">
+                                <div style="display: table-row;">
+                                    <div style="display: table-cell; width: 50%; vertical-align: top;">
+                                        <!-- Blank/Spacer or QR code again -->
+                                    </div>
+                                    <div style="display: table-cell; width: 50%; text-align: center; vertical-align: top;">
+                                        <div style="font-size: 11px; color: #222; font-weight: bold;">
+                                            <t t-if="o.company_id.city">
+                                                <span t-esc="o.company_id.city"/>,
+                                            </t>
+                                            <span t-field="o.tanggal_terbit"/>
+                                        </div>
+                                        <div style="font-size: 11px; margin-top: 10px; font-weight: bold; color: #222;">
+                                            Lembaga Sertifikasi Profesi
+                                        </div>
+                                        <div style="height: 60px; margin-top: 15px; position: relative;">
+                                            <div style="border-bottom: 1px solid #222; width: 80%; margin: 40px auto 5px auto; font-weight: bold; font-size: 11px;">
+                                                <t t-if="o.asesor_id">
+                                                    <span t-esc="o.asesor_id.name"/>
+                                                </t>
+                                            </div>
+                                            <div style="font-size: 10px; color: #333;">
+                                                Asesor Penguji / <span style="font-style: italic;">Assessor</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

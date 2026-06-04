@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="verify_page" name="LSP - Verifikasi Sertifikat">
+        <t t-name="plugins_sertifikat.verify_page">
+            <html>
+                <head>
+                    <meta charset="utf-8"/>
+                    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                    <title>Verifikasi Sertifikat</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 24px; color: #111; }
+                        .box { max-width: 720px; margin: 0 auto; border: 1px solid #ddd; padding: 18px; }
+                        h1 { margin: 0 0 12px 0; font-size: 18px; }
+                        .status { margin: 10px 0 16px 0; font-weight: 700; }
+                        .row { margin: 6px 0; }
+                        .label { display: inline-block; min-width: 160px; font-weight: 700; }
+                        .muted { opacity: 0.9; }
+                        .mono { word-break: break-all; }
+                        .hr { border-top: 1px solid #eee; margin: 14px 0; }
+                    </style>
+                </head>
+                <body>
+                    <div class="box">
+                        <h1>Verifikasi Sertifikat Kompetensi</h1>
+
+                        <div class="status">
+                            <t t-if="is_valid">STATUS: TERVALIDASI</t>
+                            <t t-else="">STATUS: TIDAK VALID</t>
+                        </div>
+
+                        <div class="row"><span class="label">Nomor Sertifikat</span>: <span t-esc="cert.nomor_sertifikat"/></div>
+                        <div class="row"><span class="label">Nama Asesi</span>: <span t-esc="cert.student_id.full_name"/></div>
+                        <div class="row"><span class="label">NIK</span>: <span t-esc="cert.student_id.nik"/></div>
+                        <div class="row"><span class="label">Skema</span>: <span t-esc="cert.skema_id.name"/></div>
+                        <div class="row"><span class="label">Tanggal Terbit</span>: <span t-field="cert.tanggal_terbit"/></div>
+                        <div class="row"><span class="label">Berlaku s/d</span>: <span t-field="cert.tanggal_kadaluarsa"/></div>
+                        <div class="row"><span class="label">Status Sistem</span>: <span t-esc="dict(cert._fields['state'].selection).get(cert.state)"/></div>
+
+                        <t t-if="cert.state == 'revoked'">
+                            <div class="hr"/>
+                            <div class="row"><span class="label">Alasan Dicabut</span>: <span t-esc="cert.alasan_cabut"/></div>
+                        </t>
+
+                        <t t-if="expired_by_date and cert.state == 'active'">
+                            <div class="hr"/>
+                            <div class="row muted">Catatan: Sertifikat melewati tanggal kadaluarsa berdasarkan tanggal (meski state masih Aktif).</div>
+                        </t>
+
+                        <div class="hr"/>
+                        <div class="row muted mono"><span class="label">Link Verifikasi</span>: <span t-esc="cert.verification_url"/></div>
+                    </div>
+                </body>
+            </html>
+        </t>
+    </template>
+
+    <template id="verify_not_found" name="LSP - Verifikasi Tidak Ditemukan">
+        <t t-name="plugins_sertifikat.verify_not_found">
+            <html>
+                <head>
+                    <meta charset="utf-8"/>
+                    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+                    <title>Verifikasi Sertifikat</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 24px; color: #111; }
+                        .box { max-width: 720px; margin: 0 auto; border: 1px solid #ddd; padding: 18px; }
+                        h1 { margin: 0 0 12px 0; font-size: 18px; }
+                        .muted { opacity: 0.9; }
+                        .mono { word-break: break-all; }
+                    </style>
+                </head>
+                <body>
+                    <div class="box">
+                        <h1>Verifikasi Sertifikat</h1>
+                        <div>Sertifikat tidak ditemukan.</div>
+                        <div class="muted mono" style="margin-top: 10px;">Kode: <span t-esc="token"/></div>
+                    </div>
+                </body>
+            </html>
+        </t>
+    </template>
+</odoo>

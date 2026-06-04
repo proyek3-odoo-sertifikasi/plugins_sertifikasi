@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_lsp_sertifikasi_admin,lsp.sertifikasi.admin,model_lsp_sertifikasi,plugins_manajement_asesor.group_admin_lsp,1,1,1,1
+access_lsp_sertifikasi_asesor,lsp.sertifikasi.asesor,model_lsp_sertifikasi,plugins_manajement_asesor.group_asesor,1,1,1,1
+access_lsp_sertifikasi_user,lsp.sertifikasi.user,model_lsp_sertifikasi,base.group_user,1,0,0,0
+access_lsp_sertifikasi_portal,lsp.sertifikasi.portal,model_lsp_sertifikasi,base.group_portal,1,0,0,0
+access_lsp_cabut_wizard_admin,lsp.cabut.wizard.admin,model_lsp_sertifikasi_cabut_wizard,plugins_manajement_asesor.group_admin_lsp,1,1,1,1

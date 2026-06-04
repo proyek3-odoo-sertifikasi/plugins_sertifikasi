@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+ 
+    <record id="paperformat_lsp_sertifikat_a4" model="report.paperformat">
+        <field name="name">LSP Sertifikat A4</field>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">5</field>
+        <field name="margin_bottom">5</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_lsp_sertifikat" model="ir.actions.report">
+        <field name="name">Sertifikat Kompetensi</field>
+        <field name="model">lsp.sertifikasi</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">plugins_sertifikat.report_lsp_sertifikat_template</field>
+        <field name="report_file">plugins_sertifikat.report_lsp_sertifikat_template</field>
+        <field name="print_report_name">
+            'Sertifikat - %s' % (object.nomor_sertifikat)
+        </field>
+        <field name="binding_model_id" ref="model_lsp_sertifikasi"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="plugins_sertifikat.paperformat_lsp_sertifikat_a4"/>
+    </record>
+ 
+</odoo>
+ 
