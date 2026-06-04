@@ -17,14 +17,14 @@
         <field name="name">Sertifikat Kompetensi</field>
         <field name="model">lsp.sertifikasi</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">plugins_sertifikat.report_lsp_sertifikat_template</field>
-        <field name="report_file">plugins_sertifikat.report_lsp_sertifikat_template</field>
+        <field name="report_name">plugins_sertifikasi.report_lsp_sertifikat_template</field>
+        <field name="report_file">plugins_sertifikasi.report_lsp_sertifikat_template</field>
         <field name="print_report_name">
             'Sertifikat - %s' % (object.nomor_sertifikat)
         </field>
         <field name="binding_model_id" ref="model_lsp_sertifikasi"/>
         <field name="binding_type">report</field>
-        <field name="paperformat_id" ref="plugins_sertifikat.paperformat_lsp_sertifikat_a4"/>
+        <field name="paperformat_id" ref="plugins_sertifikasi.paperformat_lsp_sertifikat_a4"/>
     </record>
  
 </odoo>

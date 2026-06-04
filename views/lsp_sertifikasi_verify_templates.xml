@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="verify_page" name="LSP - Verifikasi Sertifikat">
-        <t t-name="plugins_sertifikat.verify_page">
+        <t t-name="plugins_sertifikasi.verify_page">
             <html>
                 <head>
                     <meta charset="utf-8"/>
@@ -55,7 +55,7 @@
     </template>
 
     <template id="verify_not_found" name="LSP - Verifikasi Tidak Ditemukan">
-        <t t-name="plugins_sertifikat.verify_not_found">
+        <t t-name="plugins_sertifikasi.verify_not_found">
             <html>
                 <head>
                     <meta charset="utf-8"/>
