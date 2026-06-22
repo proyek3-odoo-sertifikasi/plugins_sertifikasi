@@ -1,16 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Root Menu -->
-    <menuitem id="menu_lsp_root"
-              name="LSP"
-              sequence="10"
-              web_icon="plugins_sertifikasi,static/description/icon.png"
-              groups="base.group_user"/>
-
     <!-- Sertifikasi Menu -->
     <menuitem id="menu_lsp_sertifikasi"
               name="Sertifikasi"
-              parent="menu_lsp_root"
+              parent="plugins_penilaian.menu_lsp_root"
               sequence="50"/>
 
     <menuitem id="menu_lsp_sertifikasi_list"
@@ -22,7 +15,7 @@
     <!-- Konfigurasi -->
     <menuitem id="menu_lsp_config"
               name="Konfigurasi"
-              parent="menu_lsp_root"
+              parent="plugins_penilaian.menu_lsp_root"
               sequence="90"
               groups="plugins_manajement_asesor.group_admin_lsp"/>
 </odoo>
